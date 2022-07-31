@@ -1,0 +1,50 @@
+extends layout
+
+block main
+  section#todos(class=isDoneQuestion ? "done" : "")
+    header
+      h2= question.title
+      //- if signedIn
+      ul
+        if hasUndoneAnswers
+          li
+            form.complete_all(action=`/lists/${question.id}/complete_all`
+                              method="post")
+              button.check(type="submit") Complete All
+
+        li
+          form(action=`/lists/${question.id}/edit` method="get")
+            button.edit(type="submit") Edit List
+
+    ul
+      each answer in question.answers
+        li(class=answer.done ? "done" : "")
+          //- if signedIn
+          form.check(action=`/lists/${question.id}/answers/${answer.id}/toggle`
+                     method="post")
+            input(type="hidden" name="done" value=!answer.done)
+            button Done
+
+          h3= answer.title
+          form.delete(action=`/lists/${question.id}/answers/${answer.id}/destroy`
+                    method="post")
+            button Delete
+          //- else 
+          //-   h3=answer.title 
+
+    //- if signedIn
+    form(action=`/lists/${question.id}/answers` method="post")
+      dl
+        dt
+          label(for="answerTitle") Enter a new survey answer:
+        dd
+          input(type="text"
+              name="answerTitle"
+              placeholder="answer here"
+              value=answerTitle)
+      fieldset.actions
+        button Add
+
+block headerLinks
+  .actions
+    a.list(href="/lists") All Lists

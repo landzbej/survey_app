@@ -1,0 +1,19 @@
+extends layout
+
+block main
+  if questions === undefined || questions.length === 0
+    //- if signedIn
+    p#no_list You don't have any questions. Why not create one?
+  else
+    ul#lists
+      each question, answerIndex in questions
+        - let answerInfo = answersInfo[answerIndex];
+        li(class=answerInfo.isDone ? "done" : "")
+          a(href=`/lists/${question.id}`)
+            h2= question.title
+            p #{question.answers.filter(answer => answer.done).length} / #{question.answers.length}
+
+block headerLinks
+  //- if signedIn
+  .actions
+    a.add(href="/lists/new") New question

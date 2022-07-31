@@ -1,0 +1,23 @@
+extends layout
+
+block main
+  section#todos
+    header
+      h2 Editing '#{question.title}'
+      ul
+        li
+          form.delete(action=`/lists/${question.id}/destroy` method="post")
+            button.delete(type="submit") Delete Question
+
+  form(action=`/lists/${question.id}/edit` method="post")
+    dl
+      dt
+        label(for="questionTitle") Enter the new title for the question:
+      dd
+        input(type="text"
+              name="questionTitle"
+              placeholder="Question Title"
+              value=questionTitle || question.title)
+    fieldset.actions
+      input(type="submit" value="Save")
+      a(href=`/lists/${question.id}`) Cancel

@@ -1,0 +1,16 @@
+extends layout
+
+block main
+  form(action="/lists" method="post")
+    dl
+      dt
+        label(for="questionTitle") Enter the title for your new question:
+      dd
+        input(type="text"
+              id="questionTitle"
+              name="questionTitle"
+              placeholder="Question")
+
+    fieldset.actions
+      input(type="submit" value="Save")
+      a(href="/lists") Cancel
